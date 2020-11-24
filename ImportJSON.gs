@@ -1,7 +1,7 @@
 /*====================================================================================================================================*
   ImportJSON by Brad Jasper and Trevor Lohrbeer
   ====================================================================================================================================
-  Version:      1.5.0
+  Version:      1.5.0 (the official ImportJSON version from which the fork was done)
   Project Page: https://github.com/bradjasper/ImportJSON
   Copyright:    (c) 2017-2019 by Brad Jasper
                 (c) 2012-2017 by Trevor Lohrbeer
@@ -15,6 +15,7 @@
      ImportJSONViaPost     For use by end users to import a JSON feed from a URL using POST parameters
      ImportJSONAdvanced    For use by script developers to easily extend the functionality of this library
      ImportJSONBasicAuth   For use by end users to import a JSON feed from a URL with HTTP Basic Auth (added by Karsten Lettow)
+     ImportJSONWithHeaders For use by end users to import a JSON feed from a URL with a provided header (added by Nicolae Caralicea)
 
   For future enhancements see https://github.com/bradjasper/ImportJSON/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement
   
@@ -250,6 +251,21 @@ function ImportJSONBasicAuth(url, username, password, query, parseOptions) {
   var encodedAuthInformation = Utilities.base64Encode(username + ":" + password);
   var header = {headers: {Authorization: "Basic " + encodedAuthInformation}};
   return ImportJSONAdvanced(url, header, query, parseOptions, includeXPath_, defaultTransform_);
+}
+
+/**
+ * Helper function that facilitates the use directly of the headers provided as parameter as it is.
+ *
+ * @param {url}           the URL to a http basic auth protected JSON feed
+ * @param {headers}       the http headers object
+ * @param {query}         the query passed to the include function (optional)
+ * @param {parseOptions}  a comma-separated list of options that may alter processing of the data (optional)
+ *
+ * @return a two-dimensional array containing the data, with the first row containing headers
+ * @customfunction
+**/
+function ImportJSONWithHeaders(url, headers, query, parseOptions) {
+  return ImportJSONAdvanced(url, headers, query, parseOptions, includeXPath_, defaultTransform_);
 }
 
 /** 
